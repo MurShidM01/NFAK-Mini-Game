@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nusrat Fateh Ali Khan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Test your knowledge of Nusrat Fateh Ali Khan's Qawwali music with this interactive quiz">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo">
+        <img src="assets/nusrat.jpeg" alt="Nusrat Fateh Ali Khan">
+      </div>
+      <div class="splash-title">
+        <h1>NFAK Mini Game</h1>
+        <p>Test your knowledge of Qawwali</p>
+      </div>
+      <div class="splash-progress">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="splash-quote">
+        <p>"Music is the language of the soul"</p>
+        <span>- Nusrat Fateh Ali Khan</span>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1>NFAK Mini Game</h1>
+    <div class="user-stats">
+      <span id="userNameDisplay"></span>
+      <span id="totalPointsDisplay"></span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Dashboard -->
+    <div id="dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3 id="totalScore">0</h3>
+          <p>Total Score</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="correctAnswers">0</h3>
+          <p>Correct Answers</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="accuracy">0%</h3>
+          <p>Accuracy</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="streak">0</h3>
+          <p>Current Streak</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="totalQuestions">0</h3>
+          <p>Questions Attempted</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="bestStreak">0</h3>
+          <p>Best Streak</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="totalTime">0</h3>
+          <p>Total Time Played</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="rank">#0</h3>
+          <p>Your Rank</p>
+        </div>
+      </div>
+
+      <!-- About Nusrat Fateh Ali Khan -->
+      <div class="about-section">
+        <h2>About Nusrat Fateh Ali Khan</h2>
+        <div class="about-content">
+          <div class="about-image">
+            <img src="assets/nusrat.jpeg" alt="Nusrat Fateh Ali Khan">
+          </div>
+          <div class="about-text">
+            <p>Ustad Nusrat Fateh Ali Khan was a legendary Pakistani vocalist, widely regarded as one of the greatest voices in the history of Qawwali music.</p>
+            <p>He was born on October 13, 1948, in Faisalabad, Pakistan, into a family with a deep-rooted tradition in Qawwali spanning over 600 years.</p>
+            <p>Nusrat was known for his powerful voice, extraordinary vocal range, and ability to perform at a high intensity for several hours without losing energy or control.</p>
+            <p>He played a pivotal role in introducing Qawwali music to international audiences, blending classical Sufi devotion with modern music elements.</p>
+            <p>Collaborating with Western artists like Peter Gabriel and Eddie Vedder, he broke cultural barriers and expanded the global reach of South Asian music.</p>
+            <p>Throughout his career, Nusrat released over 125 albums and received numerous awards and accolades for his contributions to music and culture.</p>
+            <p>He was affectionately known as the "Shahenshah-e-Qawwali" (King of Kings of Qawwali).</p>
+            <p>His performances were not only musical experiences but also deeply spiritual journeys for listeners.</p>
+            <p>Ustad Nusrat Fateh Ali Khan passed away on August 16, 1997, in London, but his legacy continues to inspire musicians and fans around the world.</p>
+            <p>His music remains a timeless treasure, celebrated for its passion, spirituality, and universal appeal.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Us -->
+      <div class="about-section">
+        <h2>About Us</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>Welcome to the Nusrat Fateh Ali Khan Quiz Game! We are passionate about preserving and celebrating the legacy of this legendary musician.</p>
+            <p>Our mission is to create an engaging platform where fans can test their knowledge of Nusrat Fateh Ali Khan's music while learning more about his incredible contributions to the world of music.</p>
+            <p>This quiz game features some of his most famous Qawwalis and allows you to compete with other fans while improving your knowledge of his work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quiz" class="hide">
+      <div class="quiz-container">
+        <!-- How to Play Section -->
+        <div id="howToPlay" class="how-to-play">
+          <h2>How to Play</h2>
+          <div class="instructions">
+            <div class="instruction-item">
+              <i class="fas fa-music"></i>
+              <p>Listen to the Qawwali line and identify the correct title</p>
+            </div>
+            <div class="instruction-item">
+              <i class="fas fa-clock"></i>
+              <p>You have 20 seconds to answer each question</p>
+            </div>
+            <div class="instruction-item">
+              <i class="fas fa-star"></i>
+              <p>Earn points for correct answers and maintain your streak</p>
+            </div>
+            <div class="instruction-item">
+              <i class="fas fa-trophy"></i>
+              <p>Compete with others on the leaderboard</p>
+            </div>
+          </div>
+          <button id="startQuiz" class="start-button">
+            <i class="fas fa-play"></i>
+            Start Quiz
+          </button>
+        </div>
+
+        <!-- Quiz Game Section -->
+        <div id="quizGame" class="hide">
+          <div class="question-box">
+            <h2 id="question">Loading...</h2>
+            <div class="options-container" id="options">
+              <!-- Options will be dynamically added here -->
+            </div>
+            <p id="timer"></p>
+          </div>
+          <div class="quiz-controls">
+            <button id="stopQuiz" class="control-button stop">
+              <i class="fas fa-stop"></i>
+              Stop Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div id="history" class="hide">
+      <h2>Recent Activity</h2>
+      <div id="historyList"></div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard" class="hide">
+      <h2 class="section-title">Top Players</h2>
+      <div class="leaderboard-container">
+        <div id="leaderboardList" class="leaderboard-list"></div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div id="achievements" class="hide">
+      <h2>Your Achievements</h2>
+      <div id="achievementList"></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item active" data-tab="dashboard">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="quiz">
+      <i class="fas fa-question-circle"></i>
+      <span>Quiz</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="history">
+      <i class="fas fa-history"></i>
+      <span>History</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="leaderboard">
+      <i class="fas fa-trophy"></i>
+      <span>Leaderboard</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="achievements">
+      <i class="fas fa-medal"></i>
+      <span>Achievements</span>
+    </a>
+  </nav>
+
+  <!-- External Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="script.js"></script>
+</body>
+</html>

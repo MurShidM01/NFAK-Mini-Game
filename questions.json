@@ -1,0 +1,42 @@
+[
+    {
+        "line": "Jin pathron Ko Hum Ne Ata Ki Thi Dharkane",
+        "answer": "Sochta Hoon Ke Wo",
+        "options": ["Kahan Aa Ke Rukne The Aansu", "Tumhe Dillagi", "Sochta Hoon Ke Wo", "Mere Rashke Qamar"]
+    },
+    {
+        "line": "Chal Maikade Mein Chalein",
+        "answer": "Maikadah Ban Gai Mast Aakhein",
+        "options": ["Hai Kahan Ka Irada", "Maikadah Ban Gai Mast Aakhein", "Allah Hu", "Wohi Khuda Hai"]
+    },
+    {
+        "line": "Mere Rashke Qamar",
+        "answer": "Rashke Qamar",
+        "options": ["Rashke Qamar", "Mere Qamar", "Rashke", "Qamar"]
+    },
+    {
+        "line": "Afreen Afreen",
+        "answer": "Afreen",
+        "options": ["Afreen", "Afreen Afreen", "Afreen Hai", "Afreen Ho"]
+    },
+    {
+        "line": "Ye Jo Halka Halka Suroor Hai",
+        "answer": "Halka Suroor",
+        "options": ["Halka Suroor", "Halka Hai", "Suroor Hai", "Halka Halka"]
+    },
+    {
+        "line": "Koi Toh Hai Jo Nizam-e-Hasti Chala Raha Hai",
+        "answer": "Nizam e Hasti",
+        "options": ["Nizam e Hasti", "Koi Hai", "Chala Raha", "Hasti Hai"]
+    },
+    {
+        "line": "Mera Piya Ghar Aaya",
+        "answer": "Piya Ghar Aaya",
+        "options": ["Piya Ghar Aaya", "Mera Piya", "Ghar Aaya", "Piya Aaya"]
+    },
+    {
+        "line": "Tum Ek Gorakh Dhanda Ho",
+        "answer": "Gorakh Dhanda",
+        "options": ["Gorakh Dhanda", "Tum Ho", "Ek Ho", "Dhanda Ho"]
+    }
+]
