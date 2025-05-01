@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     splashScreen.style.opacity = '0';
     splashScreen.style.transition = 'opacity 0.5s ease-out';
     
+    // Add hide class to splash screen
+    splashScreen.classList.add('hide');
+    
     // Remove splash screen from DOM after fade out
     setTimeout(() => {
       splashScreen.remove();
@@ -611,22 +614,25 @@ function loadLeaderboard() {
   separator.className = 'leaderboard-separator';
   leaderboardList.appendChild(separator);
 
-  // Add current user's position
+  // Calculate user's rank based on points
   const userScore = GameState.totalPoints;
-  const userPosition = 1020; // This would be calculated based on actual user data
+  const baseRank = 1500; // Starting rank for 0 points
+  const rankDecreasePerPoint = 1; // Rank decreases by 1 for every 2 points
+  const userRank = Math.max(1, baseRank - Math.floor(userScore / 2)); // Ensure rank is at least 1
   
+  // Add current user's position
   const userElement = document.createElement('div');
   userElement.className = 'leaderboard-item current-user';
   userElement.innerHTML = `
     <div class="rank-badge">
-      <span class="rank-number">${userPosition}</span>
+      <span class="rank-number">${userRank}</span>
     </div>
     <div class="player-info">
       <span class="player-name">${GameState.userName}</span>
       <span class="you-badge">You</span>
     </div>
     <div class="player-score">${formatScore(userScore)} points</div>
-    <div class="player-rank">#${userPosition}</div>
+    <div class="player-rank">#${userRank}</div>
   `;
   leaderboardList.appendChild(userElement);
 }

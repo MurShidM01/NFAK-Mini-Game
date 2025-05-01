@@ -26,8 +26,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
   overflow: hidden;
+}
+
+/* Hide navigation during splash screen */
+.splash-screen ~ .bottom-nav {
+  display: none;
+}
+
+.splash-screen ~ header {
+  display: none;
+}
+
+.splash-screen ~ main {
+  display: none;
+}
+
+/* Show elements after splash screen */
+.splash-screen.hide ~ .bottom-nav,
+.splash-screen.hide ~ header,
+.splash-screen.hide ~ main {
+  display: block;
 }
 
 .splash-content {
