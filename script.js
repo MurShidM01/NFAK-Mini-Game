@@ -18,14 +18,58 @@ const GameState = {
   startTime: null,
   answeredQuestions: new Set(),
   achievements: {
+    // Basic Achievements
     'Beginner': { threshold: 50, description: 'Score 50 points', icon: 'fa-award' },
     'Intermediate': { threshold: 100, description: 'Score 100 points', icon: 'fa-medal' },
     'Expert': { threshold: 200, description: 'Score 200 points', icon: 'fa-trophy' },
+    
+    // Point Milestones
+    'Thousandaire': { threshold: 1000, description: 'Score 1,000 points', icon: 'fa-coins' },
+    'Two Thousand Club': { threshold: 2000, description: 'Score 2,000 points', icon: 'fa-coins' },
+    'Three Thousand Master': { threshold: 3000, description: 'Score 3,000 points', icon: 'fa-coins' },
+    'Four Thousand Elite': { threshold: 4000, description: 'Score 4,000 points', icon: 'fa-coins' },
+    'Five Thousand Legend': { threshold: 5000, description: 'Score 5,000 points', icon: 'fa-coins' },
+    'Ten Thousand Club': { threshold: 10000, description: 'Score 10,000 points', icon: 'fa-coins' },
+    'Fifteen Thousand Master': { threshold: 15000, description: 'Score 15,000 points', icon: 'fa-coins' },
+    'Twenty Thousand Elite': { threshold: 20000, description: 'Score 20,000 points', icon: 'fa-coins' },
+    'Fifty Thousand Legend': { threshold: 50000, description: 'Score 50,000 points', icon: 'fa-coins' },
+    'Hundred Thousand Club': { threshold: 100000, description: 'Score 100,000 points', icon: 'fa-coins' },
+    'Quarter Million Master': { threshold: 250000, description: 'Score 250,000 points', icon: 'fa-coins' },
+    'Half Million Elite': { threshold: 500000, description: 'Score 500,000 points', icon: 'fa-coins' },
+    'Millionaire': { threshold: 1000000, description: 'Score 1,000,000 points', icon: 'fa-coins' },
+    'Five Million Club': { threshold: 5000000, description: 'Score 5,000,000 points', icon: 'fa-coins' },
+    'Ten Million Master': { threshold: 10000000, description: 'Score 10,000,000 points', icon: 'fa-coins' },
+    'Fifty Million Elite': { threshold: 50000000, description: 'Score 50,000,000 points', icon: 'fa-coins' },
+    'Hundred Million Legend': { threshold: 100000000, description: 'Score 100,000,000 points', icon: 'fa-coins' },
+    'Billionaire': { threshold: 1000000000, description: 'Score 1,000,000,000 points', icon: 'fa-coins' },
+    'Ten Billion Club': { threshold: 10000000000, description: 'Score 10,000,000,000 points', icon: 'fa-coins' },
+    'Fifty Billion Master': { threshold: 50000000000, description: 'Score 50,000,000,000 points', icon: 'fa-coins' },
+    'Hundred Billion Legend': { threshold: 100000000000, description: 'Score 100,000,000,000 points', icon: 'fa-coins' },
+    
+    // Streak Achievements
     'Hot Streak': { threshold: 5, description: 'Achieve a streak of 5', icon: 'fa-fire' },
+    'Legendary Streak': { threshold: 10, description: 'Achieve a streak of 10', icon: 'fa-fire' },
+    'Unstoppable': { threshold: 15, description: 'Achieve a streak of 15', icon: 'fa-fire' },
+    'Perfect Streak': { threshold: 20, description: 'Achieve a streak of 20', icon: 'fa-fire' },
+    'Godlike Streak': { threshold: 25, description: 'Achieve a streak of 25', icon: 'fa-fire' },
+    
+    // Time-Based Achievements
     'Time Master': { threshold: 3600, description: 'Play for 1 hour', icon: 'fa-clock' },
+    'Marathon Runner': { threshold: 7200, description: 'Play for 2 hours', icon: 'fa-running' },
+    'Endurance Master': { threshold: 14400, description: 'Play for 4 hours', icon: 'fa-running' },
+    'Time Lord': { threshold: 1, description: 'Answer 20 questions with less than 3 seconds remaining', icon: 'fa-hourglass' },
+    'Speed Demon': { threshold: 1, description: 'Answer 10 questions in under 5 seconds each', icon: 'fa-bolt' },
+    
+    // Accuracy Achievements
     'Perfect Score': { threshold: 1, description: 'Get 100% accuracy in a quiz', icon: 'fa-star' },
-    'Quick Thinker': { threshold: 1, description: 'Answer 5 questions in under 10 seconds', icon: 'fa-bolt' },
-    'Qawwali Master': { threshold: 1, description: 'Answer all questions correctly', icon: 'fa-crown' }
+    'Flawless Victory': { threshold: 1, description: 'Complete 3 quizzes with 100% accuracy', icon: 'fa-star' },
+    'Accuracy Master': { threshold: 1, description: 'Maintain 90% accuracy over 50 questions', icon: 'fa-star' },
+    
+    // Special Achievements
+    'Qawwali Master': { threshold: 1, description: 'Answer all questions correctly', icon: 'fa-crown' },
+    'Qawwali Guru': { threshold: 500, description: 'Score 500 points', icon: 'fa-crown' },
+    'Qawwali Legend': { threshold: 1000, description: 'Score 1,000 points', icon: 'fa-crown' },
+    'Qawwali God': { threshold: 1000000, description: 'Score 1,000,000 points', icon: 'fa-crown' }
   }
 };
 
@@ -44,7 +88,6 @@ const DOM = {
   bestStreak: document.getElementById('bestStreak'),
   totalTime: document.getElementById('totalTime'),
   rank: document.getElementById('rank'),
-  historyList: document.getElementById('historyList'),
   leaderboardList: document.getElementById('leaderboardList'),
   achievementList: document.getElementById('achievementList'),
   howToPlay: document.getElementById('howToPlay'),
@@ -104,15 +147,44 @@ document.addEventListener('DOMContentLoaded', () => {
 // Game Initialization
 async function initializeGame() {
   try {
+    // Check if all required DOM elements exist
+    const requiredElements = [
+      'question', 'options', 'timer', 'userNameDisplay', 'totalPointsDisplay',
+      'totalScore', 'correctAnswers', 'accuracy', 'streak', 'totalQuestions',
+      'bestStreak', 'totalTime', 'rank', 'leaderboardList', 'achievementList',
+      'howToPlay', 'quizGame', 'startQuiz', 'stopQuiz'
+    ];
+
+    for (const elementId of requiredElements) {
+      if (!document.getElementById(elementId)) {
+        throw new Error(`Required element ${elementId} not found`);
+      }
+    }
+
+    // Initialize game state
     await getUserName();
     await loadQuestions();
+    
+    // Update all displays
     updateStats();
-    loadHistory();
     loadLeaderboard();
     loadAchievements();
+    
+    // Show dashboard by default
+    showTab('dashboard');
+    
   } catch (error) {
     console.error('Error initializing game:', error);
-    showError('Failed to initialize game. Please refresh the page.');
+    Swal.fire({
+      title: 'Error',
+      text: 'Failed to initialize game. Please refresh the page.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'swal2-popup-custom',
+        confirmButton: 'swal2-confirm-custom'
+      }
+    });
   }
 }
 
@@ -262,7 +334,6 @@ function handleAnswer(correct, selectedOption) {
   }
   
   updateLocalStorage();
-  saveHistory(correct, selectedOption);
   updateAchievements();
   updateStats();
   
@@ -361,7 +432,14 @@ function updateScore() {
   if (DOM.totalQuestions) DOM.totalQuestions.textContent = GameState.totalAttempts;
   if (DOM.bestStreak) DOM.bestStreak.textContent = GameState.bestStreak;
   if (DOM.totalTime) DOM.totalTime.textContent = formatTime(GameState.totalTimePlayed);
-  updateRank();
+  
+  // Update rank based on total points
+  const baseRank = 1500;
+  const userRank = Math.max(1, baseRank - Math.floor(GameState.totalPoints / 2));
+  if (DOM.rank) DOM.rank.textContent = `#${userRank}`;
+  
+  // Update local storage
+  updateLocalStorage();
 }
 
 function formatTime(seconds) {
@@ -378,53 +456,6 @@ function formatTime(seconds) {
   }
 }
 
-function updateRank() {
-  const leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-  const playerIndex = leaderboard.findIndex(player => player.name === GameState.userName);
-  DOM.rank.textContent = playerIndex >= 0 ? `#${playerIndex + 1}` : '#0';
-}
-
-// Timer Management
-function startTimer() {
-  let timeLeft = GameState.TIMER_DURATION;
-  updateTimerDisplay(timeLeft);
-  
-  GameState.timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay(timeLeft);
-    
-    if (timeLeft <= 0) {
-      handleTimeout();
-    }
-  }, 1000);
-}
-
-function updateTimerDisplay(timeLeft) {
-  DOM.timer.innerText = `Time Left: ${timeLeft}s`;
-}
-
-function handleTimeout() {
-  clearInterval(GameState.timerInterval);
-  
-  // Show correct answer
-  document.querySelectorAll('.option').forEach(opt => {
-    if (opt.textContent === GameState.currentQuestion.answer) {
-      opt.classList.add('correct');
-    }
-  });
-  
-  GameState.currentStreak = 0;
-  localStorage.setItem('currentStreak', GameState.currentStreak);
-  saveHistory(false);
-  updateStats();
-  
-  // Load next question after a delay
-  setTimeout(() => {
-    loadQuestion();
-  }, 2000);
-}
-
-// Stats Management
 function updateStats() {
   DOM.userNameDisplay.textContent = `Player: ${GameState.userName}`;
   DOM.totalPointsDisplay.textContent = `Total Points: ${GameState.totalPoints}`;
@@ -432,6 +463,14 @@ function updateStats() {
   DOM.correctAnswers.textContent = GameState.correctAnswers;
   DOM.accuracy.textContent = calculateAccuracy();
   DOM.streak.textContent = GameState.currentStreak;
+  DOM.totalQuestions.textContent = GameState.totalAttempts;
+  DOM.bestStreak.textContent = GameState.bestStreak;
+  DOM.totalTime.textContent = formatTime(GameState.totalTimePlayed);
+  
+  // Update rank based on total points
+  const baseRank = 1500;
+  const userRank = Math.max(1, baseRank - Math.floor(GameState.totalPoints / 2));
+  DOM.rank.textContent = `#${userRank}`;
 }
 
 function calculateAccuracy() {
@@ -443,117 +482,6 @@ function calculateAccuracy() {
 function updateLocalStorage() {
   const items = ['totalPoints', 'correctAnswers', 'totalAttempts', 'currentStreak', 'bestStreak', 'totalTimePlayed'];
   items.forEach(item => localStorage.setItem(item, GameState[item]));
-}
-
-// History Management
-function saveHistory(correct, selectedOption) {
-  const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-  history.unshift({
-    question: GameState.currentQuestion.line,
-    yourAnswer: selectedOption,
-    correctAnswer: GameState.currentQuestion.answer,
-    correct,
-    date: new Date().toLocaleString()
-  });
-  localStorage.setItem('quizHistory', JSON.stringify(history.slice(0, 50)));
-}
-
-function loadHistory() {
-  const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-  DOM.historyList.innerHTML = '';
-  
-  history.forEach((entry, index) => {
-    const historyItem = createHistoryItem(entry, index);
-    DOM.historyList.appendChild(historyItem);
-  });
-}
-
-function createHistoryItem(entry, index) {
-  const div = document.createElement('div');
-  div.className = 'history-item';
-  div.innerHTML = `
-    <div>
-      <b>Q:</b> "${entry.question}"<br>
-      <b>Your Answer:</b> ${entry.yourAnswer}<br>
-      <b>Correct Answer:</b> ${entry.correctAnswer}<br>
-      <small>${entry.date}</small>
-    </div>
-    <button class="delete-btn" data-index="${index}">
-      <i class="fas fa-trash"></i>
-    </button>
-  `;
-  
-  setupHistoryItemEvents(div);
-  return div;
-}
-
-function setupHistoryItemEvents(div) {
-  let touchStartX = 0;
-  let touchEndX = 0;
-  let isDragging = false;
-  
-  // Touch events
-  div.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    isDragging = true;
-  });
-  
-  div.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    touchEndX = e.touches[0].clientX;
-    const diffX = touchStartX - touchEndX;
-    
-    if (diffX > 50) {
-      div.classList.add('slide-left');
-    } else {
-      div.classList.remove('slide-left');
-    }
-  });
-  
-  div.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-  
-  // Mouse events
-  div.addEventListener('mousedown', e => {
-    touchStartX = e.clientX;
-    isDragging = true;
-  });
-  
-  div.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    touchEndX = e.clientX;
-    const diffX = touchStartX - touchEndX;
-    
-    if (diffX > 50) {
-      div.classList.add('slide-left');
-    } else {
-      div.classList.remove('slide-left');
-    }
-  });
-  
-  div.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-  
-  div.addEventListener('mouseleave', () => {
-    isDragging = false;
-    div.classList.remove('slide-left');
-  });
-  
-  // Delete button click
-  div.querySelector('.delete-btn').addEventListener('click', function(e) {
-    e.stopPropagation();
-    const index = this.dataset.index;
-    deleteHistoryItem(index);
-  });
-}
-
-function deleteHistoryItem(index) {
-  const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-  history.splice(index, 1);
-  localStorage.setItem('quizHistory', JSON.stringify(history));
-  loadHistory();
 }
 
 // Leaderboard Management
@@ -756,17 +684,34 @@ function loadAchievements() {
 
 // Navigation
 function showTab(tab) {
-  document.querySelectorAll('main > div').forEach(div => div.classList.add('hide'));
-  document.getElementById(tab).classList.remove('hide');
-  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-  document.querySelector(`.nav-item[data-tab="${tab}"]`).classList.add('active');
+  // Hide all sections
+  document.querySelectorAll('main > div').forEach(div => {
+    if (div.id) {
+      div.classList.add('hide');
+    }
+  });
+  
+  // Show selected section
+  const selectedSection = document.getElementById(tab);
+  if (selectedSection) {
+    selectedSection.classList.remove('hide');
+  }
+  
+  // Update navigation
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.dataset.tab === tab) {
+      item.classList.add('active');
+    }
+  });
   
   // Refresh content if needed
-  if (tab === 'history') loadHistory();
   if (tab === 'leaderboard') {
     loadLeaderboard();
   }
-  if (tab === 'achievements') loadAchievements();
+  if (tab === 'achievements') {
+    loadAchievements();
+  }
 }
 
 // Error Handling
@@ -800,6 +745,18 @@ function startQuiz() {
 }
 
 function showQuestionsCompletedPopup() {
+  // Stop the quiz
+  GameState.quizActive = false;
+  clearInterval(GameState.timerInterval);
+  
+  // Calculate and update total time played
+  if (GameState.startTime) {
+    const timeSpent = Math.floor((Date.now() - GameState.startTime) / 1000);
+    GameState.totalTimePlayed += timeSpent;
+    localStorage.setItem('totalTimePlayed', GameState.totalTimePlayed);
+  }
+  
+  // Show completion popup
   Swal.fire({
     title: 'Questions Completed!',
     html: `
@@ -818,5 +775,19 @@ function showQuestionsCompletedPopup() {
     // Return to dashboard
     showTab('dashboard');
     updateScore();
+    
+    // Reset quiz state
+    GameState.score = 0;
+    GameState.currentStreak = 0;
+    GameState.answeredQuestions.clear();
+    
+    // Show how to play section
+    DOM.howToPlay.style.display = 'block';
+    DOM.quizGame.style.display = 'none';
+    
+    // Enable stop button
+    if (DOM.stopButton) {
+      DOM.stopButton.disabled = false;
+    }
   });
 } 
