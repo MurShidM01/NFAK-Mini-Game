@@ -264,11 +264,15 @@ function handleAnswer(correct, selectedOption) {
   updateLocalStorage();
   saveHistory(correct, selectedOption);
   updateAchievements();
-  updateLeaderboard();
   updateStats();
   
+  // Clear the timer
+  clearInterval(GameState.timerInterval);
+  
   // Load next question after a delay
-  setTimeout(loadQuestion, 2000);
+  setTimeout(() => {
+    loadQuestion();
+  }, 2000);
 }
 
 function handleCorrectAnswer() {
@@ -401,17 +405,23 @@ function updateTimerDisplay(timeLeft) {
 
 function handleTimeout() {
   clearInterval(GameState.timerInterval);
-  Swal.fire({
-    icon: 'warning',
-    title: 'Time Out!',
-    text: `Correct Answer was: ${GameState.currentQuestion.answer}`
+  
+  // Show correct answer
+  document.querySelectorAll('.option').forEach(opt => {
+    if (opt.textContent === GameState.currentQuestion.answer) {
+      opt.classList.add('correct');
+    }
   });
   
   GameState.currentStreak = 0;
   localStorage.setItem('currentStreak', GameState.currentStreak);
   saveHistory(false);
   updateStats();
-  loadQuestion();
+  
+  // Load next question after a delay
+  setTimeout(() => {
+    loadQuestion();
+  }, 2000);
 }
 
 // Stats Management
