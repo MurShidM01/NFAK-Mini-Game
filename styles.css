@@ -963,6 +963,17 @@ button:hover {
   opacity: 0.9;
 }
 
+.developer-credit {
+  text-align: center;
+  font-family: 'Consolas', monospace;
+  font-size: 7x;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .about-content {
